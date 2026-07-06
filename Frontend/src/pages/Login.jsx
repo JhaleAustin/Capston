@@ -17,40 +17,47 @@ function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await login(form);
+  try {
+    console.log("LOGIN FORM:", form);
 
-      if (!response.success) {
-        alert(response.message);
-        return;
-      }
+    const response = await login(form);
 
-      const token = response.data.access_token;
-      const user = response.data.user;
+    console.log("LOGIN RESPONSE:", response);
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+    if (!response.success) {
+      alert(response.message);
+      return;
+    }
 
-      if (user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else if (user.role === "staff") {
-        navigate("/staff/dashboard");
-      } else {
-        navigate("/customer");
-      }
-    } catch (error) {
-  console.error("LOGIN ERROR:", error);
-  alert(
-    error.response?.data?.message ||
-    error.response?.data?.detail ||
-    "Login failed."
-  );
-} console.log("LOGIN FORM:", form);
-console.log("LOGIN RESPONSE:", response);
-  };
+    const token = response.data.access_token;
+    const user = response.data.user;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    if (user.role === "admin") {
+      navigate("/admin/dashboard");
+    } else if (user.role === "staff") {
+      navigate("/staff/dashboard");
+    } else if (user.role === "customer") {
+      navigate("/customer/menu");
+    } else {
+      alert("Unknown role.");
+    }
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+
+    alert(
+      error.response?.data?.message ||
+      error.response?.data?.detail ||
+      error.message ||
+      "Login failed."
+    );
+  }
+};
 
   return (
     <div>

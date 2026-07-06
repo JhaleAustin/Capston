@@ -1,35 +1,39 @@
 from fastapi import FastAPI
-from fastapi import Depends
-from fastapi.openapi.utils import get_openapi
-from fastapi.security import OAuth2PasswordBearer
-from app.routes import (auth ,users, categories, suppliers, 
-                        inventory, sales,reports, feedback,
-                        notifications,analytics,activity_logs, ai)
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.routes import (
+    auth,
+    users,
+    categories,
+    suppliers,
+    inventory,
+    sales,
+    reports,
+    feedback,
+    notifications,
+    analytics,
+    activity_logs,
+    ai
+)
 
 app = FastAPI(
     title="AI Sales Data Management API",
     version="1.0.0"
 )
-allow_origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://capston-kpjk.vercel.app",
-]
-
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://capston-kpjk.vercel.app"
+        "https://capston-kpjk.vercel.app",
+        "https://capston-kpjk-git-main-jhaleaustins-projects.vercel.app",
+        "https://capston-kpjk-ct4atywr8-jhaleaustins-projects.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 def custom_openapi():
 
