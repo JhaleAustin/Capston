@@ -42,8 +42,14 @@ function Login() {
         navigate("/customer");
       }
     } catch (error) {
-      alert("Login failed.");
-    }
+  console.error("LOGIN ERROR:", error);
+  alert(
+    error.response?.data?.message ||
+    error.response?.data?.detail ||
+    "Login failed."
+  );
+} console.log("LOGIN FORM:", form);
+console.log("LOGIN RESPONSE:", response);
   };
 
   return (
