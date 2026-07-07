@@ -1,18 +1,30 @@
 import { NavLink, Outlet } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
+import {
+  FaChartPie,
+  FaBoxes,
+  FaReceipt,
+  FaRobot,
+  FaTags,
+  FaTruck,
+  FaComments,
+  FaHistory,
+  FaUsers,
+  FaFileAlt,
+} from "react-icons/fa";
 
 function AdminLayout() {
   const menuItems = [
-    ["Dashboard", "/admin/dashboard"],
-    ["Inventory", "/admin/inventory"],
-    ["Sales", "/admin/sales"],
-    ["AI Insights", "/admin/ai"],
-    ["Categories", "/admin/categories"],
-    ["Suppliers", "/admin/suppliers"],
-    ["Feedback", "/admin/feedback"],
-    ["Activity Logs", "/admin/activity-logs"],
-    ["Users", "/admin/users"],
-    ["Reports", "/admin/reports"],
+    { icon: <FaChartPie />, label: "Dashboard", path: "/admin/dashboard" },
+    { icon: <FaBoxes />, label: "Inventory", path: "/admin/inventory" },
+    { icon: <FaReceipt />, label: "Sales", path: "/admin/sales" },
+    { icon: <FaRobot />, label: "AI Insights", path: "/admin/ai" },
+    { icon: <FaTags />, label: "Categories", path: "/admin/categories" },
+    { icon: <FaTruck />, label: "Suppliers", path: "/admin/suppliers" },
+    { icon: <FaComments />, label: "Feedback", path: "/admin/feedback" },
+    { icon: <FaHistory />, label: "Activity Logs", path: "/admin/activity-logs" },
+    { icon: <FaUsers />, label: "Users", path: "/admin/users" },
+    { icon: <FaFileAlt />, label: "Reports", path: "/admin/reports" },
   ];
 
   return (
@@ -20,27 +32,31 @@ function AdminLayout() {
       <aside style={sidebar}>
         <div>
           <div style={brandBox}>
-            <h2 style={brandTitle}>Kyojiro</h2>
-            <p style={brandSub}>Admin Panel</p>
+            <div style={logoBox}>K</div>
+            <div>
+              <h2 style={brandTitle}>Kyojiro</h2>
+              <p style={brandSub}>Admin Dashboard</p>
+            </div>
           </div>
 
           <nav style={nav}>
-            {menuItems.map(([label, path]) => (
+            {menuItems.map((item) => (
               <NavLink
-                key={path}
-                to={path}
+                key={item.path}
+                to={item.path}
                 style={({ isActive }) => ({
                   ...navLink,
                   ...(isActive ? activeLink : {}),
                 })}
               >
-                {label}
+                <span style={iconStyle}>{item.icon}</span>
+                <span>{item.label}</span>
               </NavLink>
             ))}
           </nav>
         </div>
 
-        <div style={logoutBox}>
+        <div style={bottomBox}>
           <LogoutButton />
         </div>
       </aside>
@@ -59,33 +75,50 @@ const layout = {
 };
 
 const sidebar = {
-  width: "260px",
+  width: "280px",
   minHeight: "100vh",
-  background: "linear-gradient(180deg, #7A1313, #111111)",
-  color: "white",
+  background: "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
   padding: "24px 18px",
+  color: "white",
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+  boxShadow: "8px 0 30px rgba(0,0,0,0.2)",
   position: "sticky",
   top: 0,
 };
 
 const brandBox = {
-  padding: "12px 10px 25px",
-  borderBottom: "1px solid rgba(255,255,255,0.15)",
-  marginBottom: "18px",
+  display: "flex",
+  alignItems: "center",
+  gap: "13px",
+  padding: "10px 10px 24px",
+  borderBottom: "1px solid rgba(255,255,255,0.18)",
+  marginBottom: "20px",
+};
+
+const logoBox = {
+  width: "52px",
+  height: "52px",
+  borderRadius: "16px",
+  background: "#E7C56A",
+  color: "#111111",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "24px",
+  fontWeight: "900",
 };
 
 const brandTitle = {
   margin: 0,
-  fontSize: "28px",
-  color: "#E7C56A",
+  fontSize: "25px",
+  color: "#FFFFFF",
 };
 
 const brandSub = {
-  margin: "5px 0 0",
-  fontSize: "14px",
+  margin: "4px 0 0",
+  fontSize: "13px",
   color: "#F5F2ED",
 };
 
@@ -96,26 +129,38 @@ const nav = {
 };
 
 const navLink = {
+  display: "flex",
+  alignItems: "center",
+  gap: "13px",
+  padding: "13px 15px",
+  borderRadius: "14px",
   color: "#F5F2ED",
   textDecoration: "none",
-  padding: "13px 15px",
-  borderRadius: "12px",
-  fontWeight: "600",
+  fontSize: "15px",
+  fontWeight: "700",
 };
 
 const activeLink = {
   background: "#E7C56A",
   color: "#111111",
+  boxShadow: "0 8px 18px rgba(0,0,0,0.2)",
 };
 
-const logoutBox = {
-  paddingTop: "20px",
-  borderTop: "1px solid rgba(255,255,255,0.15)",
+const iconStyle = {
+  fontSize: "18px",
+  minWidth: "22px",
+  display: "flex",
+  alignItems: "center",
+};
+
+const bottomBox = {
+  paddingTop: "18px",
+  borderTop: "1px solid rgba(255,255,255,0.18)",
 };
 
 const main = {
   flex: 1,
-  padding: "28px",
+  padding: "30px",
   overflow: "auto",
 };
 
