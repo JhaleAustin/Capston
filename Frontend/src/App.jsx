@@ -83,8 +83,7 @@ function App() {
         >  
 <Route path="feedback" element={<CustomerFeedback />} />
 <Route path="profile" element={<CustomerProfile />} />
-<Route path="menu" element={<CustomerMenu />} />
-<Route path="best-sellers" element={<CustomerBestSellers />} />
+<Route path="menu" element={<CustomerMenu />} /> 
 <Route path="recommendation" element={<CustomerRecommendation />} />
         </Route>
 

@@ -40,10 +40,7 @@ function CustomerLayout() {
               ...(isActive ? activeLink : {})
             })}
           >
-            <FaStar />
-            Best Sellers
-          </NavLink>
-
+       
           <NavLink
             to="/customer/recommendation"
             style={({ isActive }) => ({
