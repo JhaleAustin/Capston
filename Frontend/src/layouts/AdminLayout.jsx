@@ -56,9 +56,19 @@ function AdminLayout() {
           </nav>
         </div>
 
-        <div style={bottomBox}>
-          <LogoutButton />
-        </div>
+<div style={bottomBox}>
+  <div style={userCard}>
+    <p style={userName}>
+      {JSON.parse(localStorage.getItem("user"))?.name}
+    </p>
+
+    <p style={userRole}>
+      {JSON.parse(localStorage.getItem("user"))?.role}
+    </p>
+  </div>
+
+  <LogoutButton />
+</div>
       </aside>
 
       <main style={main}>
@@ -155,8 +165,27 @@ const iconStyle = {
 };
 
 const bottomBox = {
-  paddingTop: "18px",
-  borderTop: "1px solid rgba(255,255,255,0.18)",
+  paddingTop: "20px",
+  borderTop: "1px solid rgba(255,255,255,0.15)",
+};
+
+const userCard = {
+  background: "rgba(255,255,255,0.08)",
+  borderRadius: "16px",
+  padding: "16px",
+  marginBottom: "18px",
+};
+
+const userName = {
+  margin: 0,
+  fontSize: "15px",
+  fontWeight: "700",
+};
+
+const userRole = {
+  margin: "5px 0 0",
+  color: "#E7C56A",
+  fontSize: "13px",
 };
 
 const main = {

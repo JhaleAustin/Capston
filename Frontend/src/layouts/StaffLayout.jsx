@@ -1,55 +1,87 @@
 import { NavLink, Outlet } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
 import {
-  FaChartPie,
-  FaBoxes,
-  FaReceipt,
-  FaComments,
+  FaUtensils,
+  FaStar,
+  FaCommentDots,
+  FaUser,
   FaRobot,
 } from "react-icons/fa";
 
-function StaffLayout() {
-  const menuItems = [
-    { icon: <FaChartPie />, label: "Dashboard", path: "/staff/dashboard" },
-    { icon: <FaBoxes />, label: "Inventory", path: "/staff/inventory" },
-    { icon: <FaReceipt />, label: "Sales", path: "/staff/sales" },
-    { icon: <FaComments />, label: "Feedback", path: "/staff/feedback" },
-    { icon: <FaRobot />, label: "AI Insights", path: "/staff/ai" },
-  ];
-
+function CustomerLayout() {
   return (
     <div style={layout}>
-      <aside style={sidebar}>
-        <div>
-          <div style={brandBox}>
-            <div style={logoBox}>K</div>
-            <div>
-              <h2 style={brandTitle}>Kyojiro</h2>
-              <p style={brandSub}>Staff Panel</p>
-            </div>
-          </div>
+      <nav style={navbar}>
+        <div style={brand}>
+          <div style={logo}>K</div>
 
-          <nav style={nav}>
-            {menuItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                style={({ isActive }) => ({
-                  ...navLink,
-                  ...(isActive ? activeLink : {}),
-                })}
-              >
-                <span style={iconStyle}>{item.icon}</span>
-                <span>{item.label}</span>
-              </NavLink>
-            ))}
-          </nav>
+          <div>
+            <h2 style={brandTitle}>Kyojiro Inshokuten</h2>
+            <p style={brandSub}>Japanese Restaurant</p>
+          </div>
         </div>
 
-        <div style={bottomBox}>
+        <div style={menu}>
+          <NavLink
+            to="/customer/menu"
+            style={({ isActive }) => ({
+              ...link,
+              ...(isActive ? activeLink : {})
+            })}
+          >
+            <FaUtensils />
+            Menu
+          </NavLink>
+
+          <NavLink
+            to="/customer/best-sellers"
+            style={({ isActive }) => ({
+              ...link,
+              ...(isActive ? activeLink : {})
+            })}
+          >
+            <FaStar />
+            Best Sellers
+          </NavLink>
+
+          <NavLink
+            to="/customer/recommendation"
+            style={({ isActive }) => ({
+              ...link,
+              ...(isActive ? activeLink : {})
+            })}
+          >
+            <FaRobot />
+            AI Recommendation
+          </NavLink>
+
+          <NavLink
+            to="/customer/feedback"
+            style={({ isActive }) => ({
+              ...link,
+              ...(isActive ? activeLink : {})
+            })}
+          >
+            <FaCommentDots />
+            Feedback
+          </NavLink>
+
+          <NavLink
+            to="/customer/profile"
+            style={({ isActive }) => ({
+              ...link,
+              ...(isActive ? activeLink : {})
+            })}
+          >
+            <FaUser />
+            Profile
+          </NavLink>
+        </div>
+
+        <div>
           <LogoutButton />
         </div>
-      </aside>
+      </nav>
 
       <main style={main}>
         <Outlet />
@@ -59,103 +91,75 @@ function StaffLayout() {
 }
 
 const layout = {
-  display: "flex",
-  width: "100vw",
   minHeight: "100vh",
-  margin: 0,
-  padding: 0,
   background: "#F5F2ED",
 };
 
-const sidebar = {
-  width: "300px",
-  minHeight: "100vh",
-  background: "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
-  padding: "24px 18px",
+const navbar = {
+  background: "linear-gradient(135deg,#7A1313,#9B1C1C)",
   color: "white",
+  padding: "18px 40px",
   display: "flex",
-  flexDirection: "column",
   justifyContent: "space-between",
-  boxShadow: "8px 0 30px rgba(0,0,0,0.2)",
-  boxSizing: "border-box",
+  alignItems: "center",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+  flexWrap: "wrap",
 };
 
-const brandBox = {
+const brand = {
   display: "flex",
   alignItems: "center",
-  gap: "13px",
-  padding: "10px 10px 24px",
-  borderBottom: "1px solid rgba(255,255,255,0.18)",
-  marginBottom: "20px",
+  gap: "15px",
 };
 
-const logoBox = {
-  width: "52px",
-  height: "52px",
-  borderRadius: "16px",
+const logo = {
+  width: "55px",
+  height: "55px",
+  borderRadius: "15px",
   background: "#E7C56A",
-  color: "#111111",
+  color: "#111",
   display: "flex",
-  alignItems: "center",
   justifyContent: "center",
+  alignItems: "center",
   fontSize: "24px",
   fontWeight: "900",
 };
 
 const brandTitle = {
   margin: 0,
-  fontSize: "25px",
-  color: "#FFFFFF",
+  fontSize: "22px",
 };
 
 const brandSub = {
-  margin: "4px 0 0",
-  fontSize: "13px",
+  margin: 0,
   color: "#F5F2ED",
+  fontSize: "13px",
 };
 
-const nav = {
+const menu = {
   display: "flex",
-  flexDirection: "column",
-  gap: "8px",
+  gap: "15px",
+  flexWrap: "wrap",
 };
 
-const navLink = {
+const link = {
   display: "flex",
   alignItems: "center",
-  gap: "13px",
-  padding: "13px 15px",
-  borderRadius: "14px",
-  color: "#F5F2ED",
+  gap: "8px",
   textDecoration: "none",
-  fontSize: "15px",
+  color: "white",
+  padding: "12px 18px",
+  borderRadius: "12px",
   fontWeight: "700",
 };
 
 const activeLink = {
   background: "#E7C56A",
-  color: "#111111",
-};
-
-const iconStyle = {
-  fontSize: "18px",
-  minWidth: "22px",
-  display: "flex",
-  alignItems: "center",
-};
-
-const bottomBox = {
-  paddingTop: "18px",
-  borderTop: "1px solid rgba(255,255,255,0.18)",
+  color: "#111",
 };
 
 const main = {
-  flex: 1,
-  minHeight: "100vh",
-  background: "#F5F2ED",
-  padding: "30px",
-  boxSizing: "border-box",
-  overflowX: "hidden",
+  padding: "35px",
 };
 
-export default StaffLayout;
+export default CustomerLayout;
