@@ -14,3 +14,8 @@ export const updateProfile = async (data) => {
   const response = await API.put("/auth/me", data);
   return response.data;
 };
+
+export const register = async (form) => {
+  const res = await axios.post(`${API_URL}/auth/register`, form);
+  return res.data;
+};

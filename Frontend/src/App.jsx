@@ -29,13 +29,15 @@ import CustomerFeedback from "./pages/customer/Feedback";
 import CustomerProfile from "./pages/customer/Profile";
 import CustomerBestSellers from "./pages/customer/BestSellers";
 import CustomerRecommendation from "./pages/customer/AIRecommendation";
-
+import Register from "./pages/Register";
+ 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
 
+<Route path="/register" element={<Register />} />
        <Route
         path="/admin"
         element={
