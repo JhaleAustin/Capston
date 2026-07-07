@@ -35,7 +35,7 @@ function AdminLayout() {
             <div style={logoBox}>K</div>
             <div>
               <h2 style={brandTitle}>Kyojiro</h2>
-              <p style={brandSub}>Admin Dashboard</p>
+              <p style={brandSub}>Admin Panel</p>
             </div>
           </div>
 
@@ -70,12 +70,15 @@ function AdminLayout() {
 
 const layout = {
   display: "flex",
+  width: "100vw",
   minHeight: "100vh",
+  margin: 0,
+  padding: 0,
   background: "#F5F2ED",
 };
 
 const sidebar = {
-  width: "280px",
+  width: "300px",
   minHeight: "100vh",
   background: "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
   padding: "24px 18px",
@@ -84,8 +87,7 @@ const sidebar = {
   flexDirection: "column",
   justifyContent: "space-between",
   boxShadow: "8px 0 30px rgba(0,0,0,0.2)",
-  position: "sticky",
-  top: 0,
+  boxSizing: "border-box",
 };
 
 const brandBox = {
@@ -143,7 +145,6 @@ const navLink = {
 const activeLink = {
   background: "#E7C56A",
   color: "#111111",
-  boxShadow: "0 8px 18px rgba(0,0,0,0.2)",
 };
 
 const iconStyle = {
@@ -160,8 +161,11 @@ const bottomBox = {
 
 const main = {
   flex: 1,
+  minHeight: "100vh",
+  background: "#F5F2ED",
   padding: "30px",
-  overflow: "auto",
+  boxSizing: "border-box",
+  overflowX: "hidden",
 };
 
 export default AdminLayout;
