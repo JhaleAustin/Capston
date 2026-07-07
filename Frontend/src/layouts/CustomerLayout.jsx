@@ -32,14 +32,7 @@ function CustomerLayout() {
             <FaUtensils />
             Menu
           </NavLink>
-
-          <NavLink
-            to="/customer/best-sellers"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
+ 
        
           <NavLink
             to="/customer/recommendation"
