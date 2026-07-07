@@ -1,5 +1,5 @@
 import API from "./axiosConfig";
-
+ 
 export const login = async (data) => {
   const response = await API.post("/auth/login", data);
   return response.data;
@@ -16,6 +16,6 @@ export const updateProfile = async (data) => {
 };
 
 export const register = async (form) => {
-  const res = await axios.post(`${API_URL}/auth/register`, form);
-  return res.data;
+  const response = await API.post("/auth/register", form);
+  return response.data;
 };
