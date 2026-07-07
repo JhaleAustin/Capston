@@ -6,28 +6,99 @@ import {
   deleteUser
 } from "../../api/usersApi";
 
+import { register } from "../../api/authApi";
+
 function Users() {
   const [users, setUsers] = useState([]);
+  const [editingId, setEditingId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 5;
 
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    role: "staff",
+    status: "Active"
+  });
+
   const loadUsers = async () => {
     const response = await getUsers();
-
-    if (response.success) {
-      setUsers(response.data);
-    }
+    if (response.success) setUsers(response.data);
   };
 
   useEffect(() => {
     loadUsers();
   }, []);
 
-  const changeRole = async (uid, role) => {
-    await updateUser(uid, { role });
-    alert("User role updated.");
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      role: "staff",
+      status: "Active"
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (editingId) {
+      const payload = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        role: form.role,
+        status: form.status
+      };
+
+      await updateUser(editingId, payload);
+      alert("User updated.");
+    } else {
+      const payload = {
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        password: form.password,
+        role: "staff"
+      };
+
+      const response = await register(payload);
+
+      if (!response.success) {
+        alert(response.message);
+        return;
+      }
+
+      alert("Staff account created.");
+    }
+
+    resetForm();
     loadUsers();
+  };
+
+  const handleEdit = (user) => {
+    setEditingId(user.uid);
+
+    setForm({
+      name: user.name || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      password: "",
+      role: user.role || "staff",
+      status: user.status || "Active"
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const changeStatus = async (uid, status) => {
@@ -53,8 +124,93 @@ function Users() {
       <div style={header}>
         <h1 style={title}>Users Management</h1>
         <p style={subtitle}>
-          Manage admin, staff, and customer accounts in the system.
+          Create staff accounts and manage system users.
         </p>
+      </div>
+
+      <div style={formCard}>
+        <h2 style={sectionTitle}>
+          {editingId ? "Update User Account" : "Create Staff Account"}
+        </h2>
+
+        <form onSubmit={handleSubmit} style={formGrid}>
+          <input
+            style={input}
+            name="name"
+            placeholder="Full Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            style={input}
+            name="email"
+            type="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            style={input}
+            name="phone"
+            placeholder="Phone Number"
+            value={form.phone}
+            onChange={handleChange}
+            required
+          />
+
+          {!editingId && (
+            <input
+              style={input}
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
+          )}
+
+          {editingId && (
+            <>
+              <select
+                style={input}
+                name="role"
+                value={form.role}
+                onChange={handleChange}
+              >
+                <option value="admin">admin</option>
+                <option value="staff">staff</option>
+                <option value="customer">customer</option>
+              </select>
+
+              <select
+                style={input}
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+              >
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </>
+          )}
+
+          <div style={buttonGroup}>
+            <button type="submit" style={primaryBtn}>
+              {editingId ? "Update User" : "Create Staff"}
+            </button>
+
+            {editingId && (
+              <button type="button" onClick={resetForm} style={cancelBtn}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
       </div>
 
       <div style={tableCard}>
@@ -98,33 +254,16 @@ function Users() {
 
                   <td style={td}>{user.email}</td>
                   <td style={td}>{user.phone}</td>
-
-                  <td style={td}>
-                    <select
-                      style={select}
-                      value={user.role}
-                      onChange={(e) =>
-                        changeRole(user.uid, e.target.value)
-                      }
-                    >
-                      <option value="admin">admin</option>
-                      <option value="staff">staff</option>
-                      <option value="customer">customer</option>
-                    </select>
-                  </td>
+                  <td style={td}>{user.role}</td>
 
                   <td style={td}>
                     <span
                       style={{
                         ...statusBadge,
                         background:
-                          user.status === "Active"
-                            ? "#E8F7E8"
-                            : "#FFF0D6",
+                          user.status === "Active" ? "#E8F7E8" : "#FFF0D6",
                         color:
-                          user.status === "Active"
-                            ? "#0A7A28"
-                            : "#9B1C1C"
+                          user.status === "Active" ? "#0A7A28" : "#9B1C1C"
                       }}
                     >
                       {user.status}
@@ -132,28 +271,25 @@ function Users() {
                   </td>
 
                   <td style={td}>
+                    <button style={editBtn} onClick={() => handleEdit(user)}>
+                      Edit
+                    </button>
+
                     <button
                       style={activateBtn}
-                      onClick={() =>
-                        changeStatus(user.uid, "Active")
-                      }
+                      onClick={() => changeStatus(user.uid, "Active")}
                     >
                       Activate
                     </button>
 
                     <button
                       style={deactivateBtn}
-                      onClick={() =>
-                        changeStatus(user.uid, "Inactive")
-                      }
+                      onClick={() => changeStatus(user.uid, "Inactive")}
                     >
                       Deactivate
                     </button>
 
-                    <button
-                      style={deleteBtn}
-                      onClick={() => handleDelete(user.uid)}
-                    >
+                    <button style={deleteBtn} onClick={() => handleDelete(user.uid)}>
                       Delete
                     </button>
                   </td>
@@ -191,31 +327,65 @@ function Users() {
   );
 }
 
-const page = {
-  padding: "30px"
-};
+const page = { padding: "30px" };
 
 const header = {
   background: "linear-gradient(135deg, #7A1313, #9B1C1C)",
   color: "white",
   padding: "30px",
   borderRadius: "22px",
+  marginBottom: "25px"
+};
+
+const title = { margin: 0, fontSize: "32px" };
+const subtitle = { marginTop: "10px", color: "#F5F2ED" };
+
+const formCard = {
+  background: "#fff",
+  padding: "25px",
+  borderRadius: "20px",
   marginBottom: "25px",
-  boxShadow: "0 10px 25px rgba(0,0,0,0.15)"
+  boxShadow: "0 10px 30px rgba(0,0,0,0.08)"
 };
 
-const title = {
-  margin: 0,
-  fontSize: "32px"
+const formGrid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: "15px",
+  marginTop: "20px"
 };
 
-const subtitle = {
-  marginTop: "10px",
-  color: "#F5F2ED"
+const input = {
+  padding: "14px",
+  borderRadius: "12px",
+  border: "1px solid #ddd",
+  fontSize: "15px"
+};
+
+const buttonGroup = { display: "flex", gap: "10px" };
+
+const primaryBtn = {
+  background: "#9B1C1C",
+  color: "white",
+  border: "none",
+  padding: "14px 18px",
+  borderRadius: "12px",
+  fontWeight: "700",
+  cursor: "pointer"
+};
+
+const cancelBtn = {
+  background: "#E7C56A",
+  color: "#111",
+  border: "none",
+  padding: "14px 18px",
+  borderRadius: "12px",
+  fontWeight: "700",
+  cursor: "pointer"
 };
 
 const tableCard = {
-  background: "#FFFFFF",
+  background: "#fff",
   borderRadius: "20px",
   padding: "25px",
   boxShadow: "0 10px 30px rgba(0,0,0,0.08)"
@@ -227,27 +397,16 @@ const tableHeader = {
   marginBottom: "18px"
 };
 
-const sectionTitle = {
-  margin: 0,
-  color: "#7A1313"
-};
+const sectionTitle = { margin: 0, color: "#7A1313" };
+const smallText = { marginTop: "8px", color: "#666" };
 
-const smallText = {
-  marginTop: "8px",
-  color: "#666"
-};
-
-const table = {
-  width: "100%",
-  borderCollapse: "collapse"
-};
+const table = { width: "100%", borderCollapse: "collapse" };
 
 const th = {
   background: "#9B1C1C",
   color: "white",
   padding: "14px",
-  textAlign: "left",
-  fontSize: "14px"
+  textAlign: "left"
 };
 
 const td = {
@@ -281,19 +440,22 @@ const avatar = {
   fontWeight: "900"
 };
 
-const select = {
-  padding: "9px 12px",
-  borderRadius: "10px",
-  border: "1px solid #ddd",
-  background: "#FFF",
-  fontWeight: "700"
-};
-
 const statusBadge = {
   padding: "7px 14px",
   borderRadius: "20px",
   fontWeight: "700",
   fontSize: "13px"
+};
+
+const editBtn = {
+  padding: "8px 12px",
+  background: "#E7C56A",
+  color: "#111",
+  border: "none",
+  borderRadius: "10px",
+  fontWeight: "700",
+  cursor: "pointer",
+  marginRight: "6px"
 };
 
 const activateBtn = {
@@ -309,8 +471,8 @@ const activateBtn = {
 
 const deactivateBtn = {
   padding: "8px 12px",
-  background: "#E7C56A",
-  color: "#111",
+  background: "#FFF0D6",
+  color: "#9B1C1C",
   border: "none",
   borderRadius: "10px",
   fontWeight: "700",
@@ -346,9 +508,6 @@ const pageBtn = {
   cursor: "pointer"
 };
 
-const pageText = {
-  color: "#333",
-  fontWeight: "700"
-};
+const pageText = { color: "#333", fontWeight: "700" };
 
 export default Users;
