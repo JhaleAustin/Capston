@@ -334,13 +334,7 @@ const reportSub = {
   color: "#F5F2ED",
 };
 
-const badge = {
-  background: "#E7C56A",
-  color: "#111",
-  padding: "10px 18px",
-  borderRadius: "30px",
-  fontWeight: "700",
-};
+ 
 
 const markdownBox = {
   padding: "35px",
