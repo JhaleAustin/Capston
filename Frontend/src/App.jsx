@@ -3,9 +3,6 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import App from "./App.jsx";
-import "./index.css";
-import "./App.css";
 
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
