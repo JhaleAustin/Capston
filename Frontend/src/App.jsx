@@ -58,7 +58,7 @@ function App() {
         <Route path="reports" element={<AdminReports />} />
        </Route>
 
-    {/*  <Route
+        <Route
           path="/staff"
           element={
             <ProtectedRoute allowedRoles={["staff"]}>
@@ -72,7 +72,7 @@ function App() {
         <Route path="feedback" element={<StaffFeedback />} />
         <Route path="ai" element={<StaffAI />} />
         </Route>
-*/}
+
 
  {/* Staff routes */}
         <Route
