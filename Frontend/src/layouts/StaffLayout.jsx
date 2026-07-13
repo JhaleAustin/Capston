@@ -1,30 +1,51 @@
 import { NavLink, Outlet } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
+
 import {
   FaChartPie,
   FaBoxes,
   FaReceipt,
   FaRobot,
-  FaTags,
-  FaTruck,
   FaComments,
-  FaHistory,
-  FaUsers,
-  FaFileAlt,
 } from "react-icons/fa";
 
 function StaffLayout() {
+  const storedUser = localStorage.getItem("user");
+
+  let user = null;
+
+  try {
+    user = storedUser ? JSON.parse(storedUser) : null;
+  } catch (error) {
+    console.error("Invalid user data:", error);
+  }
+
   const menuItems = [
-    { icon: <FaChartPie />, label: "Dashboard", path: "/admin/dashboard" },
-    { icon: <FaBoxes />, label: "Inventory", path: "/admin/inventory" },
-    { icon: <FaReceipt />, label: "Sales", path: "/admin/sales" },
-    { icon: <FaRobot />, label: "AI Insights", path: "/admin/ai" },
-    { icon: <FaTags />, label: "Categories", path: "/admin/categories" },
-    { icon: <FaTruck />, label: "Suppliers", path: "/admin/suppliers" },
-    { icon: <FaComments />, label: "Feedback", path: "/admin/feedback" },
-    { icon: <FaHistory />, label: "Activity Logs", path: "/admin/activity-logs" },
-    { icon: <FaUsers />, label: "Users", path: "/admin/users" },
-    { icon: <FaFileAlt />, label: "Reports", path: "/admin/reports" },
+    {
+      icon: <FaChartPie />,
+      label: "Dashboard",
+      path: "/staff/dashboard",
+    },
+    {
+      icon: <FaBoxes />,
+      label: "Inventory",
+      path: "/staff/inventory",
+    },
+    {
+      icon: <FaReceipt />,
+      label: "Sales",
+      path: "/staff/sales",
+    },
+    {
+      icon: <FaRobot />,
+      label: "AI Insights",
+      path: "/staff/ai",
+    },
+    {
+      icon: <FaComments />,
+      label: "Feedback",
+      path: "/staff/feedback",
+    },
   ];
 
   return (
@@ -33,9 +54,10 @@ function StaffLayout() {
         <div>
           <div style={brandBox}>
             <div style={logoBox}>K</div>
+
             <div>
               <h2 style={brandTitle}>Kyojiro</h2>
-              <p style={brandSub}>Admin Panel</p>
+              <p style={brandSub}>Staff Panel</p>
             </div>
           </div>
 
@@ -56,19 +78,19 @@ function StaffLayout() {
           </nav>
         </div>
 
-<div style={bottomBox}>
-  <div style={userCard}>
-    <p style={userName}>
-      {JSON.parse(localStorage.getItem("user"))?.name}
-    </p>
+        <div style={bottomBox}>
+          <div style={userCard}>
+            <p style={userName}>{user?.name || "Staff User"}</p>
 
-    <p style={userRole}>
-      {JSON.parse(localStorage.getItem("user"))?.role}
-    </p>
-  </div>
+            <p style={userRole}>
+              {user?.role
+                ? user.role.charAt(0).toUpperCase() + user.role.slice(1)
+                : "Staff"}
+            </p>
+          </div>
 
-  <LogoutButton />
-</div>
+          <LogoutButton />
+        </div>
       </aside>
 
       <main style={main}>
@@ -80,7 +102,7 @@ function StaffLayout() {
 
 const layout = {
   display: "flex",
-  width: "100vw",
+  width: "100%",
   minHeight: "100vh",
   margin: 0,
   padding: 0,
@@ -89,8 +111,10 @@ const layout = {
 
 const sidebar = {
   width: "300px",
+  minWidth: "300px",
   minHeight: "100vh",
-  background: "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
+  background:
+    "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
   padding: "24px 18px",
   color: "white",
   display: "flex",
@@ -150,6 +174,7 @@ const navLink = {
   textDecoration: "none",
   fontSize: "15px",
   fontWeight: "700",
+  transition: "0.2s ease",
 };
 
 const activeLink = {
@@ -190,6 +215,7 @@ const userRole = {
 
 const main = {
   flex: 1,
+  minWidth: 0,
   minHeight: "100vh",
   background: "#F5F2ED",
   padding: "30px",

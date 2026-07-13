@@ -58,7 +58,7 @@ function App() {
         <Route path="reports" element={<AdminReports />} />
        </Route>
 
-        <Route
+    {/*  <Route
           path="/staff"
           element={
             <ProtectedRoute allowedRoles={["staff"]}>
@@ -72,6 +72,29 @@ function App() {
         <Route path="feedback" element={<StaffFeedback />} />
         <Route path="ai" element={<StaffAI />} />
         </Route>
+*/}
+
+ {/* Staff routes */}
+        <Route
+          path="/staff"
+          element={
+            <ProtectedRoute allowedRoles={["staff"]}>
+              <StaffLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Navigate to="dashboard" replace />} />
+
+          <Route path="dashboard" element={<StaffDashboard />} />
+
+          {/* Reusing the same admin page designs */}
+          <Route path="inventory" element={<AdminInventory />} />
+          <Route path="sales" element={<AdminSales />} />
+          <Route path="feedback" element={<AdminFeedback />} />
+          <Route path="ai" element={<AdminAI />} />
+        </Route>
+
+
 
         <Route
           path="/customer"
