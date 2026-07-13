@@ -14,13 +14,19 @@ import {
 } from "react-icons/fa";
 
 function StaffLayout() {
-const menuItems = [
-  { icon: <FaChartPie />, label: "Dashboard", path: "/staff/dashboard" },
-  { icon: <FaBoxes />, label: "Inventory", path: "/staff/inventory" },
-  { icon: <FaReceipt />, label: "Sales", path: "/staff/sales" },
-  { icon: <FaRobot />, label: "AI Insights", path: "/staff/ai" },
-  { icon: <FaComments />, label: "Feedback", path: "/staff/feedback" },
-];
+  const menuItems = [
+    { icon: <FaChartPie />, label: "Dashboard", path: "/admin/dashboard" },
+    { icon: <FaBoxes />, label: "Inventory", path: "/admin/inventory" },
+    { icon: <FaReceipt />, label: "Sales", path: "/admin/sales" },
+    { icon: <FaRobot />, label: "AI Insights", path: "/admin/ai" },
+    { icon: <FaTags />, label: "Categories", path: "/admin/categories" },
+    { icon: <FaTruck />, label: "Suppliers", path: "/admin/suppliers" },
+    { icon: <FaComments />, label: "Feedback", path: "/admin/feedback" },
+    { icon: <FaHistory />, label: "Activity Logs", path: "/admin/activity-logs" },
+    { icon: <FaUsers />, label: "Users", path: "/admin/users" },
+    { icon: <FaFileAlt />, label: "Reports", path: "/admin/reports" },
+  ];
+
   return (
     <div style={layout}>
       <aside style={sidebar}>
