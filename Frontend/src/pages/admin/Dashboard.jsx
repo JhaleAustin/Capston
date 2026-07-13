@@ -195,18 +195,34 @@ function Dashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div style={chartBox}>
-          <h3 style={chartTitle}>Best Seller Chart</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={bestSellers}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="sold" fill="#E7C56A" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+  <div style={chartBox}>
+  <h3 style={chartTitle}>Best Seller Chart</h3>
+
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart
+      data={(dashboard.bestSelling || []).map((item) => ({
+        name: item[0],
+        sold: item[1]
+      }))}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis
+        dataKey="name"
+        interval={0}
+        angle={-20}
+        textAnchor="end"
+        height={80}
+      />
+
+      <YAxis />
+
+      <Tooltip />
+
+      <Bar dataKey="sold" fill="#E7C56A" />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 
         <div style={chartBox}>
           <h3 style={chartTitle}>Inventory Stock Chart</h3>
