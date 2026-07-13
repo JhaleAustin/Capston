@@ -4,27 +4,17 @@ import {
   FaChartPie,
   FaBoxes,
   FaReceipt,
-  FaRobot,
-  FaTags,
-  FaTruck,
   FaComments,
-  FaHistory,
-  FaUsers,
-  FaFileAlt,
+  FaRobot,
 } from "react-icons/fa";
 
 function StaffLayout() {
   const menuItems = [
-    { icon: <FaChartPie />, label: "Dashboard", path: "/admin/dashboard" },
-    { icon: <FaBoxes />, label: "Inventory", path: "/admin/inventory" },
-    { icon: <FaReceipt />, label: "Sales", path: "/admin/sales" },
-    { icon: <FaRobot />, label: "AI Insights", path: "/admin/ai" },
-    { icon: <FaTags />, label: "Categories", path: "/admin/categories" },
-    { icon: <FaTruck />, label: "Suppliers", path: "/admin/suppliers" },
-    { icon: <FaComments />, label: "Feedback", path: "/admin/feedback" },
-    { icon: <FaHistory />, label: "Activity Logs", path: "/admin/activity-logs" },
-    { icon: <FaUsers />, label: "Users", path: "/admin/users" },
-    { icon: <FaFileAlt />, label: "Reports", path: "/admin/reports" },
+    { icon: <FaChartPie />, label: "Dashboard", path: "/staff/dashboard" },
+    { icon: <FaBoxes />, label: "Inventory", path: "/staff/inventory" },
+    { icon: <FaReceipt />, label: "Sales", path: "/staff/sales" },
+    { icon: <FaComments />, label: "Feedback", path: "/staff/feedback" },
+    { icon: <FaRobot />, label: "AI Insights", path: "/staff/ai" },
   ];
 
   return (
@@ -35,7 +25,7 @@ function StaffLayout() {
             <div style={logoBox}>K</div>
             <div>
               <h2 style={brandTitle}>Kyojiro</h2>
-              <p style={brandSub}>Admin Panel</p>
+              <p style={brandSub}>Staff Panel</p>
             </div>
           </div>
 
@@ -56,19 +46,9 @@ function StaffLayout() {
           </nav>
         </div>
 
-<div style={bottomBox}>
-  <div style={userCard}>
-    <p style={userName}>
-      {JSON.parse(localStorage.getItem("user"))?.name}
-    </p>
-
-    <p style={userRole}>
-      {JSON.parse(localStorage.getItem("user"))?.role}
-    </p>
-  </div>
-
-  <LogoutButton />
-</div>
+        <div style={bottomBox}>
+          <LogoutButton />
+        </div>
       </aside>
 
       <main style={main}>
@@ -165,27 +145,8 @@ const iconStyle = {
 };
 
 const bottomBox = {
-  paddingTop: "20px",
-  borderTop: "1px solid rgba(255,255,255,0.15)",
-};
-
-const userCard = {
-  background: "rgba(255,255,255,0.08)",
-  borderRadius: "16px",
-  padding: "16px",
-  marginBottom: "18px",
-};
-
-const userName = {
-  margin: 0,
-  fontSize: "15px",
-  fontWeight: "700",
-};
-
-const userRole = {
-  margin: "5px 0 0",
-  color: "#E7C56A",
-  fontSize: "13px",
+  paddingTop: "18px",
+  borderTop: "1px solid rgba(255,255,255,0.18)",
 };
 
 const main = {
