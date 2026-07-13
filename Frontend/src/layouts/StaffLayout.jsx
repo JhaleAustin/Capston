@@ -1,87 +1,75 @@
 import { NavLink, Outlet } from "react-router-dom";
 import LogoutButton from "../components/LogoutButton";
 import {
-  FaUtensils,
-  FaStar,
-  FaCommentDots,
-  FaUser,
+  FaChartPie,
+  FaBoxes,
+  FaReceipt,
   FaRobot,
+  FaTags,
+  FaTruck,
+  FaComments,
+  FaHistory,
+  FaUsers,
+  FaFileAlt,
 } from "react-icons/fa";
 
-function CustomerLayout() {
+function StaffLayout() {
+  const menuItems = [
+    { icon: <FaChartPie />, label: "Dashboard", path: "/admin/dashboard" },
+    { icon: <FaBoxes />, label: "Inventory", path: "/admin/inventory" },
+    { icon: <FaReceipt />, label: "Sales", path: "/admin/sales" },
+    { icon: <FaRobot />, label: "AI Insights", path: "/admin/ai" },
+    { icon: <FaTags />, label: "Categories", path: "/admin/categories" },
+    { icon: <FaTruck />, label: "Suppliers", path: "/admin/suppliers" },
+    { icon: <FaComments />, label: "Feedback", path: "/admin/feedback" },
+    { icon: <FaHistory />, label: "Activity Logs", path: "/admin/activity-logs" },
+    { icon: <FaUsers />, label: "Users", path: "/admin/users" },
+    { icon: <FaFileAlt />, label: "Reports", path: "/admin/reports" },
+  ];
+
   return (
     <div style={layout}>
-      <nav style={navbar}>
-        <div style={brand}>
-          <div style={logo}>K</div>
-
-          <div>
-            <h2 style={brandTitle}>Kyojiro Inshokuten</h2>
-            <p style={brandSub}>Japanese Restaurant</p>
-          </div>
-        </div>
-
-        <div style={menu}>
-          <NavLink
-            to="/customer/menu"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
-            <FaUtensils />
-            Menu
-          </NavLink>
-
-          <NavLink
-            to="/customer/best-sellers"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
-            <FaStar />
-            Best Sellers
-          </NavLink>
-
-          <NavLink
-            to="/customer/recommendation"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
-            <FaRobot />
-            AI Recommendation
-          </NavLink>
-
-          <NavLink
-            to="/customer/feedback"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
-            <FaCommentDots />
-            Feedback
-          </NavLink>
-
-          <NavLink
-            to="/customer/profile"
-            style={({ isActive }) => ({
-              ...link,
-              ...(isActive ? activeLink : {})
-            })}
-          >
-            <FaUser />
-            Profile
-          </NavLink>
-        </div>
-
+      <aside style={sidebar}>
         <div>
-          <LogoutButton />
+          <div style={brandBox}>
+            <div style={logoBox}>K</div>
+            <div>
+              <h2 style={brandTitle}>Kyojiro</h2>
+              <p style={brandSub}>Admin Panel</p>
+            </div>
+          </div>
+
+          <nav style={nav}>
+            {menuItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                style={({ isActive }) => ({
+                  ...navLink,
+                  ...(isActive ? activeLink : {}),
+                })}
+              >
+                <span style={iconStyle}>{item.icon}</span>
+                <span>{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
         </div>
-      </nav>
+
+<div style={bottomBox}>
+  <div style={userCard}>
+    <p style={userName}>
+      {JSON.parse(localStorage.getItem("user"))?.name}
+    </p>
+
+    <p style={userRole}>
+      {JSON.parse(localStorage.getItem("user"))?.role}
+    </p>
+  </div>
+
+  <LogoutButton />
+</div>
+      </aside>
 
       <main style={main}>
         <Outlet />
@@ -91,75 +79,122 @@ function CustomerLayout() {
 }
 
 const layout = {
+  display: "flex",
+  width: "100vw",
   minHeight: "100vh",
+  margin: 0,
+  padding: 0,
   background: "#F5F2ED",
 };
 
-const navbar = {
-  background: "linear-gradient(135deg,#7A1313,#9B1C1C)",
+const sidebar = {
+  width: "300px",
+  minHeight: "100vh",
+  background: "linear-gradient(180deg, #7A1313 0%, #9B1C1C 45%, #111111 100%)",
+  padding: "24px 18px",
   color: "white",
-  padding: "18px 40px",
   display: "flex",
+  flexDirection: "column",
   justifyContent: "space-between",
-  alignItems: "center",
-  boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-  flexWrap: "wrap",
+  boxShadow: "8px 0 30px rgba(0,0,0,0.2)",
+  boxSizing: "border-box",
 };
 
-const brand = {
+const brandBox = {
   display: "flex",
   alignItems: "center",
-  gap: "15px",
+  gap: "13px",
+  padding: "10px 10px 24px",
+  borderBottom: "1px solid rgba(255,255,255,0.18)",
+  marginBottom: "20px",
 };
 
-const logo = {
-  width: "55px",
-  height: "55px",
-  borderRadius: "15px",
+const logoBox = {
+  width: "52px",
+  height: "52px",
+  borderRadius: "16px",
   background: "#E7C56A",
-  color: "#111",
+  color: "#111111",
   display: "flex",
-  justifyContent: "center",
   alignItems: "center",
+  justifyContent: "center",
   fontSize: "24px",
   fontWeight: "900",
 };
 
 const brandTitle = {
   margin: 0,
-  fontSize: "22px",
+  fontSize: "25px",
+  color: "#FFFFFF",
 };
 
 const brandSub = {
-  margin: 0,
-  color: "#F5F2ED",
+  margin: "4px 0 0",
   fontSize: "13px",
+  color: "#F5F2ED",
 };
 
-const menu = {
+const nav = {
   display: "flex",
-  gap: "15px",
-  flexWrap: "wrap",
+  flexDirection: "column",
+  gap: "8px",
 };
 
-const link = {
+const navLink = {
   display: "flex",
   alignItems: "center",
-  gap: "8px",
+  gap: "13px",
+  padding: "13px 15px",
+  borderRadius: "14px",
+  color: "#F5F2ED",
   textDecoration: "none",
-  color: "white",
-  padding: "12px 18px",
-  borderRadius: "12px",
+  fontSize: "15px",
   fontWeight: "700",
 };
 
 const activeLink = {
   background: "#E7C56A",
-  color: "#111",
+  color: "#111111",
+};
+
+const iconStyle = {
+  fontSize: "18px",
+  minWidth: "22px",
+  display: "flex",
+  alignItems: "center",
+};
+
+const bottomBox = {
+  paddingTop: "20px",
+  borderTop: "1px solid rgba(255,255,255,0.15)",
+};
+
+const userCard = {
+  background: "rgba(255,255,255,0.08)",
+  borderRadius: "16px",
+  padding: "16px",
+  marginBottom: "18px",
+};
+
+const userName = {
+  margin: 0,
+  fontSize: "15px",
+  fontWeight: "700",
+};
+
+const userRole = {
+  margin: "5px 0 0",
+  color: "#E7C56A",
+  fontSize: "13px",
 };
 
 const main = {
-  padding: "35px",
+  flex: 1,
+  minHeight: "100vh",
+  background: "#F5F2ED",
+  padding: "30px",
+  boxSizing: "border-box",
+  overflowX: "hidden",
 };
 
-export default CustomerLayout;
+export default StaffLayout;
